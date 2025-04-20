@@ -11,6 +11,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      # Standard Releases
       - name: 'Bump-Test-01'
         id: test-s01
         uses: psycho0verload/increment-semantic-version@test
@@ -52,44 +53,35 @@ jobs:
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: alpha
+          version-fragment: stable
+
+      # Pre-Releases ohne Versionssprung
       - name: 'Bump-Test-08'
         id: test-s08
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: beta
+          version-fragment: alpha
       - name: 'Bump-Test-09'
         id: test-s09
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: pre
+          version-fragment: beta
       - name: 'Bump-Test-10'
         id: test-s10
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: rc
+          version-fragment: pre
       - name: 'Bump-Test-11'
         id: test-s11
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: stable
-      - name: Do something with your bumped release version
-        run:  |
-          echo "${{ inputs.version }} with Major: ${{ steps.test-s01.outputs.next-version }}"
-          echo "${{ inputs.version }} with Minor: ${{ steps.test-s02.outputs.next-version }}"
-          echo "${{ inputs.version }} with Patch: ${{ steps.test-s03.outputs.next-version }}"
-          echo "${{ inputs.version }} with Feature: ${{ steps.test-s04.outputs.next-version }}"
-          echo "${{ inputs.version }} with Bug: ${{ steps.test-s05.outputs.next-version }}"
-          echo "${{ inputs.version }} with Hotfix: ${{ steps.test-s06.outputs.next-version }}"
-          echo "${{ inputs.version }} with Alpha: ${{ steps.test-s07.outputs.next-version }}"
-          echo "${{ inputs.version }} with Beta: ${{ steps.test-s08.outputs.next-version }}"
-          echo "${{ inputs.version }} with Pre: ${{ steps.test-s09.outputs.next-version }}"
-          echo "${{ inputs.version }} with Rc: ${{ steps.test-s10.outputs.next-version }}"
-          echo "${{ inputs.version }} with stable: ${{ steps.test-s11.outputs.next-version }}"
+          version-fragment: rc
+
+      # Patch + Pre
       - name: 'Bump-Test-12'
         id: test-s12
         uses: psycho0verload/increment-semantic-version@test
@@ -114,9 +106,82 @@ jobs:
         with:
           current-version: ${{ inputs.version }}
           version-fragment: patch-rc
-      - name: Do something with your bumped release version
-        run:  |
-          echo "${{ inputs.version }} with patch-alpha: ${{ steps.test-s12.outputs.next-version }}"
-          echo "${{ inputs.version }} with patch-beta: ${{ steps.test-s13.outputs.next-version }}"
-          echo "${{ inputs.version }} with patch-pre: ${{ steps.test-s14.outputs.next-version }}"
-          echo "${{ inputs.version }} with patch-rc: ${{ steps.test-s15.outputs.next-version }}"
+
+      # Minor + Pre
+      - name: 'Bump-Test-16'
+        id: test-s16
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: minor-alpha
+      - name: 'Bump-Test-17'
+        id: test-s17
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: minor-beta
+      - name: 'Bump-Test-18'
+        id: test-s18
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: minor-pre
+      - name: 'Bump-Test-19'
+        id: test-s19
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: minor-rc
+
+      # Major + Pre
+      - name: 'Bump-Test-20'
+        id: test-s20
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: major-alpha
+      - name: 'Bump-Test-21'
+        id: test-s21
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: major-beta
+      - name: 'Bump-Test-22'
+        id: test-s22
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: major-pre
+      - name: 'Bump-Test-23'
+        id: test-s23
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: major-rc
+
+      - name: Print all results
+        run: |
+          echo "${{ inputs.version }} →"
+          echo "  Major:       ${{ steps.test-s01.outputs.next-version }}"
+          echo "  Minor:       ${{ steps.test-s02.outputs.next-version }}"
+          echo "  Patch:       ${{ steps.test-s03.outputs.next-version }}"
+          echo "  Feature:     ${{ steps.test-s04.outputs.next-version }}"
+          echo "  Bug:         ${{ steps.test-s05.outputs.next-version }}"
+          echo "  Hotfix:      ${{ steps.test-s06.outputs.next-version }}"
+          echo "  Stable:      ${{ steps.test-s07.outputs.next-version }}"
+          echo "  Alpha:       ${{ steps.test-s08.outputs.next-version }}"
+          echo "  Beta:        ${{ steps.test-s09.outputs.next-version }}"
+          echo "  Pre:         ${{ steps.test-s10.outputs.next-version }}"
+          echo "  RC:          ${{ steps.test-s11.outputs.next-version }}"
+          echo "  Patch-Alpha: ${{ steps.test-s12.outputs.next-version }}"
+          echo "  Patch-Beta:  ${{ steps.test-s13.outputs.next-version }}"
+          echo "  Patch-Pre:   ${{ steps.test-s14.outputs.next-version }}"
+          echo "  Patch-RC:    ${{ steps.test-s15.outputs.next-version }}"
+          echo "  Minor-Alpha: ${{ steps.test-s16.outputs.next-version }}"
+          echo "  Minor-Beta:  ${{ steps.test-s17.outputs.next-version }}"
+          echo "  Minor-Pre:   ${{ steps.test-s18.outputs.next-version }}"
+          echo "  Minor-RC:    ${{ steps.test-s19.outputs.next-version }}"
+          echo "  Major-Alpha: ${{ steps.test-s20.outputs.next-version }}"
+          echo "  Major-Beta:  ${{ steps.test-s21.outputs.next-version }}"
+          echo "  Major-Pre:   ${{ steps.test-s22.outputs.next-version }}"
+          echo "  Major-RC:    ${{ steps.test-s23.outputs.next-version }}"
