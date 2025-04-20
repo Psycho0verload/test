@@ -71,6 +71,12 @@ jobs:
         with:
           current-version: ${{ inputs.version }}
           version-fragment: rc
+      - name: 'Bump-Test-11'
+        id: test-s11
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: stable
       - name: Do something with your bumped release version
         run:  |
           echo "${{ inputs.version }} with Major: ${{ steps.test-s01.outputs.next-version }}"
@@ -83,3 +89,34 @@ jobs:
           echo "${{ inputs.version }} with Beta: ${{ steps.test-s08.outputs.next-version }}"
           echo "${{ inputs.version }} with Pre: ${{ steps.test-s09.outputs.next-version }}"
           echo "${{ inputs.version }} with Rc: ${{ steps.test-s10.outputs.next-version }}"
+          echo "${{ inputs.version }} with stable: ${{ steps.test-s11.outputs.next-version }}"
+      - name: 'Bump-Test-12'
+        id: test-s12
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: patch-alpha
+      - name: 'Bump-Test-13'
+        id: test-s13
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: patch-beta
+      - name: 'Bump-Test-14'
+        id: test-s14
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: patch-pre
+      - name: 'Bump-Test-15'
+        id: test-s15
+        uses: psycho0verload/increment-semantic-version@test
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: patch-rc
+      - name: Do something with your bumped release version
+        run:  |
+          echo "${{ inputs.version }} with patch-alpha: ${{ steps.test-s12.outputs.next-version }}"
+          echo "${{ inputs.version }} with patch-beta: ${{ steps.test-s13.outputs.next-version }}"
+          echo "${{ inputs.version }} with patch-pre: ${{ steps.test-s14.outputs.next-version }}"
+          echo "${{ inputs.version }} with patch-rc: ${{ steps.test-s15.outputs.next-version }}"
