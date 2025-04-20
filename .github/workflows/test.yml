@@ -1,187 +1,54 @@
-name: testing
+name: Semantic Version Testmatrix
+
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version eingeben zum Testen'
+        description: 'Version eingeben zum Testen (z.B. 1.0.0 oder 1.0.0-rc)'
         required: true
         type: string
 
 jobs:
-  release:
+  matrix-test:
+    name: Test ${{ matrix.type }} -> Version
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type:
+          - major
+          - minor
+          - patch
+          - feature
+          - bug
+          - hotfix
+          - stable
+          - alpha
+          - beta
+          - pre
+          - rc
+          - patch-alpha
+          - patch-beta
+          - patch-pre
+          - patch-rc
+          - minor-alpha
+          - minor-beta
+          - minor-pre
+          - minor-rc
+          - major-alpha
+          - major-beta
+          - major-pre
+          - major-rc
+
     steps:
-      # Standard Releases
-      - name: 'Bump-Test-01'
-        id: test-s01
+      - name: Run version bump with ${{ matrix.type }}
+        id: bump
         uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
-          version-fragment: major
-      - name: 'Bump-Test-02'
-        id: test-s02
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: minor
-      - name: 'Bump-Test-03'
-        id: test-s03
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: patch
-      - name: 'Bump-Test-04'
-        id: test-s04
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: feature
-      - name: 'Bump-Test-05'
-        id: test-s05
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: bug
-      - name: 'Bump-Test-06'
-        id: test-s06
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: hotfix
-      - name: 'Bump-Test-07'
-        id: test-s07
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: stable
+          version-fragment: ${{ matrix.type }}
 
-      # Pre-Releases ohne Versionssprung
-      - name: 'Bump-Test-08'
-        id: test-s08
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: alpha
-      - name: 'Bump-Test-09'
-        id: test-s09
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: beta
-      - name: 'Bump-Test-10'
-        id: test-s10
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: pre
-      - name: 'Bump-Test-11'
-        id: test-s11
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: rc
-
-      # Patch + Pre
-      - name: 'Bump-Test-12'
-        id: test-s12
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: patch-alpha
-      - name: 'Bump-Test-13'
-        id: test-s13
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: patch-beta
-      - name: 'Bump-Test-14'
-        id: test-s14
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: patch-pre
-      - name: 'Bump-Test-15'
-        id: test-s15
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: patch-rc
-
-      # Minor + Pre
-      - name: 'Bump-Test-16'
-        id: test-s16
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: minor-alpha
-      - name: 'Bump-Test-17'
-        id: test-s17
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: minor-beta
-      - name: 'Bump-Test-18'
-        id: test-s18
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: minor-pre
-      - name: 'Bump-Test-19'
-        id: test-s19
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: minor-rc
-
-      # Major + Pre
-      - name: 'Bump-Test-20'
-        id: test-s20
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: major-alpha
-      - name: 'Bump-Test-21'
-        id: test-s21
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: major-beta
-      - name: 'Bump-Test-22'
-        id: test-s22
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: major-pre
-      - name: 'Bump-Test-23'
-        id: test-s23
-        uses: psycho0verload/increment-semantic-version@test
-        with:
-          current-version: ${{ inputs.version }}
-          version-fragment: major-rc
-
-      - name: Print all results
+      - name: Print result
         run: |
-          echo "${{ inputs.version }} →"
-          echo "  Major:       ${{ steps.test-s01.outputs.next-version }}"
-          echo "  Minor:       ${{ steps.test-s02.outputs.next-version }}"
-          echo "  Patch:       ${{ steps.test-s03.outputs.next-version }}"
-          echo "  Feature:     ${{ steps.test-s04.outputs.next-version }}"
-          echo "  Bug:         ${{ steps.test-s05.outputs.next-version }}"
-          echo "  Hotfix:      ${{ steps.test-s06.outputs.next-version }}"
-          echo "  Stable:      ${{ steps.test-s07.outputs.next-version }}"
-          echo "  Alpha:       ${{ steps.test-s08.outputs.next-version }}"
-          echo "  Beta:        ${{ steps.test-s09.outputs.next-version }}"
-          echo "  Pre:         ${{ steps.test-s10.outputs.next-version }}"
-          echo "  RC:          ${{ steps.test-s11.outputs.next-version }}"
-          echo "  Patch-Alpha: ${{ steps.test-s12.outputs.next-version }}"
-          echo "  Patch-Beta:  ${{ steps.test-s13.outputs.next-version }}"
-          echo "  Patch-Pre:   ${{ steps.test-s14.outputs.next-version }}"
-          echo "  Patch-RC:    ${{ steps.test-s15.outputs.next-version }}"
-          echo "  Minor-Alpha: ${{ steps.test-s16.outputs.next-version }}"
-          echo "  Minor-Beta:  ${{ steps.test-s17.outputs.next-version }}"
-          echo "  Minor-Pre:   ${{ steps.test-s18.outputs.next-version }}"
-          echo "  Minor-RC:    ${{ steps.test-s19.outputs.next-version }}"
-          echo "  Major-Alpha: ${{ steps.test-s20.outputs.next-version }}"
-          echo "  Major-Beta:  ${{ steps.test-s21.outputs.next-version }}"
-          echo "  Major-Pre:   ${{ steps.test-s22.outputs.next-version }}"
-          echo "  Major-RC:    ${{ steps.test-s23.outputs.next-version }}"
+          echo "Input version: ${{ inputs.version }}"
+          echo "Type: ${{ matrix.type }}"
+          echo "Result: ${{ steps.bump.outputs.next-version }}"
