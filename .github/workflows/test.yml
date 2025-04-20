@@ -1,4 +1,4 @@
-name: Release
+name: testing
 on:
   workflow_dispatch:
     inputs:
@@ -13,61 +13,61 @@ jobs:
     steps:
       - name: 'Bump-Test-01'
         id: test-s01
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: major
       - name: 'Bump-Test-02'
         id: test-s02
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: minor
       - name: 'Bump-Test-03'
         id: test-s03
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: patch
       - name: 'Bump-Test-04'
         id: test-s04
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: feature
       - name: 'Bump-Test-05'
         id: test-s05
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: bug
       - name: 'Bump-Test-06'
         id: test-s06
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: hotfix
       - name: 'Bump-Test-07'
         id: test-s07
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: alpha
       - name: 'Bump-Test-08'
         id: test-s08
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: beta
       - name: 'Bump-Test-09'
         id: test-s09
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: pre
       - name: 'Bump-Test-10'
         id: test-s10
-        uses: psycho0verload/increment-semantic-version@23-unexpectedly-increment
+        uses: psycho0verload/increment-semantic-version@test
         with:
           current-version: ${{ inputs.version }}
           version-fragment: rc
