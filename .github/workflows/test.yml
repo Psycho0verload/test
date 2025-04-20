@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Run version bump with ${{ matrix.type }}
         id: bump
-        uses: psycho0verload/increment-semantic-version@test
+        uses: psycho0verload/increment-semantic-version@master
         with:
           current-version: ${{ inputs.version }}
           version-fragment: ${{ matrix.type }}
