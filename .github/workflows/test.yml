@@ -26,7 +26,18 @@ jobs:
           - beta
           - pre
           - rc
-
+          - patch-alpha
+          - patch-beta
+          - patch-pre
+          - patch-rc
+          - minor-alpha
+          - minor-beta
+          - minor-pre
+          - minor-rc
+          - major-alpha
+          - major-beta
+          - major-pre
+          - major-rc
 
     steps:
       - name: Run version bump with ${{ matrix.type }}
