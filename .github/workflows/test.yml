@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version eingeben zum Testen (z.B. 1.0.0 oder 1.0.0-rc)'
+        description: 'Version eingeben zum Testen (z. B. 1.0.0 oder 1.0.0-rc)'
         required: true
         type: string
 
@@ -53,16 +53,16 @@ jobs:
           echo "Type: ${{ matrix.type }}"
           echo "Result: ${{ steps.bump.outputs.next-version }}"
 
-      - name: Save result to artifact
+      - name: Save result to file
         run: |
           mkdir -p result
-          echo "${{ inputs.version }} → ${{ matrix.type }} → ${{ steps.bump.outputs.next-version }}" > result/${{ matrix.type }}.txt
+          echo "${{ inputs.version }} → ${{ matrix.type }} → ${{ steps.bump.outputs.next-version }}" > result/result.txt
 
       - name: Upload result artifact
         uses: actions/upload-artifact@v4
         with:
-          name: matrix-results
-          path: result/
+          name: matrix-result-${{ matrix.type }}
+          path: result/result.txt
 
   summary:
     name: Zusammenfassung aller Versionstests
@@ -70,20 +70,19 @@ jobs:
     needs: matrix-test
     if: always()
     steps:
-      - name: Download result artifacts
+      - name: Download all result artifacts
         uses: actions/download-artifact@v4
         with:
-          name: matrix-results
           path: results
 
       - name: Print Zusammenfassung in Logs
         run: |
           echo "### 🧪 Zusammenfassung aller Versionstests:"
           echo ""
-          cat results/*.txt | sort
+          find results -name 'result.txt' -exec cat {} \; | sort
 
       - name: Schreibe Zusammenfassung in GitHub Summary
         run: |
           echo "### 🧪 Zusammenfassung aller Versionstests:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          cat results/*.txt | sort >> $GITHUB_STEP_SUMMARY
+          find results -name 'result.txt' -exec cat {} \; | sort >> $GITHUB_STEP_SUMMARY
