@@ -1,0 +1,85 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version eingeben zum Testen'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Bump-Test-01'
+        id: test-s01
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: major
+      - name: 'Bump-Test-02'
+        id: test-s02
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: minor
+      - name: 'Bump-Test-03'
+        id: test-s03
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: patch
+      - name: 'Bump-Test-04'
+        id: test-s04
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: feature
+      - name: 'Bump-Test-05'
+        id: test-s05
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: bug
+      - name: 'Bump-Test-06'
+        id: test-s06
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: hotfix
+      - name: 'Bump-Test-07'
+        id: test-s07
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: alpha
+      - name: 'Bump-Test-08'
+        id: test-s08
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: beta
+      - name: 'Bump-Test-09'
+        id: test-s09
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: pre
+      - name: 'Bump-Test-10'
+        id: test-s10
+        uses: psycho0verload/increment-semantic-version@master
+        with:
+          current-version: ${{ inputs.version }}
+          version-fragment: rc
+      - name: Do something with your bumped release version
+        run:  |
+          echo "${{ inputs.version }} with Major: ${{ steps.test-s01.outputs.next-version }}"
+          echo "${{ inputs.version }} with Minor: ${{ steps.test-s02.outputs.next-version }}"
+          echo "${{ inputs.version }} with Patch: ${{ steps.test-s03.outputs.next-version }}"
+          echo "${{ inputs.version }} with Feature: ${{ steps.test-s04.outputs.next-version }}"
+          echo "${{ inputs.version }} with Bug: ${{ steps.test-s05.outputs.next-version }}"
+          echo "${{ inputs.version }} with Hotfix: ${{ steps.test-s06.outputs.next-version }}"
+          echo "${{ inputs.version }} with Alpha: ${{ steps.test-s07.outputs.next-version }}"
+          echo "${{ inputs.version }} with Beta: ${{ steps.test-s08.outputs.next-version }}"
+          echo "${{ inputs.version }} with Pre: ${{ steps.test-s09.outputs.next-version }}"
+          echo "${{ inputs.version }} with Rc: ${{ steps.test-s10.outputs.next-version }}"
